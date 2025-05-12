@@ -264,6 +264,16 @@ $ zoxide edit
 $ sudo apt install fzf
 ```
 
+Añadimos fzf al `.zshrc`.
+
+```bash
+source <(fzf --zsh)
+```
+
+- `Ctrl + R`: Abre una ventana de buscador del historial, con enter escribe el comando en la terminal.
+- `Ctrl + T`: Abre una ventana de buscador de archivos, con enter escribe la ruta.
+- `Ctrl + C`: Abre una ventana de buscador de directorios, con enter hace un cd a la ruta.
+
 Ahora podemos hacer uso del comando de Zoxide `cdi` para un menú interactivo de búsquedas frecuentes.
 
 ### Batcat + Fuzzy Finding
@@ -285,31 +295,6 @@ alias cdf='cd $(find . -type d -print | fzf --tmux center)'
 function fzfc() {
 	fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
-
-function hsearch() {
-  local selected_cmd
-  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
-  if [[ -n $selected_cmd ]]; then
-    print -z "$selected_cmd"
-  fi
-}
-
-function zle_hsearch_command() {
-  local selected_cmd
-  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
-  if [[ -n $selected_cmd ]]; then
-    LBUFFER+="$selected_cmd"
-    zle redisplay
-  fi
-}
-zle -N zle_hsearch_command
-bindkey '^R' zle_hsearch_command
-
-function zle_cdf_command() {
-	LBUFFER+="cd $(fd -t d -H | fzf --tmux center)"
-}
-zle -N zle_cdf_command
-bindkey '^T' zle_cdf_command
 ```
 
 - `cat`: Se ejecuta batcat en su lugar.
@@ -323,9 +308,7 @@ bindkey '^T' zle_cdf_command
   - `Ctrl + C`: code
   - `Ctrl + V`: vim
 - `fzfc`: Buscador de archivos, ejecuta el comando que se escriba al archivo seleccionado:
-  - `fzfc code`
-- `Ctrl + R`: Abre una ventana de buscador del historial, con enter escribe el comando en la terminal.
-- `Ctrl + T`: Abre una ventana de buscador de directorios, con enter escribe el comando cd con la ruta.
+  - E.g. `fzfc code`
 
 ### fd-find
 
@@ -413,6 +396,8 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 
 eval "$(zoxide init --cmd cd zsh)"
 
+source <(fzf --zsh)
+
 # custom aliases
 alias cat='batcat'
 alias catn='/bin/cat'
@@ -426,30 +411,4 @@ alias fd='fdfind'
 function fzfc() {
 	fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
-
-function hsearch() {
-  local selected_cmd
-  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
-  if [[ -n $selected_cmd ]]; then
-    print -z "$selected_cmd"
-  fi
-}
-
-function zle_hsearch_command() {
-  local selected_cmd
-  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
-  if [[ -n $selected_cmd ]]; then
-    LBUFFER+="$selected_cmd"
-    zle redisplay
-  fi
-}
-zle -N zle_hsearch_command
-bindkey '^R' zle_hsearch_command
-
-function zle_cdf_command() {
-	LBUFFER+="cd $(fd -t d -H | fzf --tmux center)"
-}
-zle -N zle_cdf_command
-bindkey '^T' zle_cdf_command
-
 ```
