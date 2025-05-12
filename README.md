@@ -5,7 +5,8 @@
 1. [Kitty](#kitty)
 2. [Tmux](#tmux)
 3. [OhMyPosh](#ohmyposh)
-4. [Others](#others)
+4. [Otros](#otros)
+5. [zshrc](#zshrc)
 
 <a name="kitty"></a>
 
@@ -236,9 +237,9 @@ foreground = 'magenta'
 template = '> '
 ```
 
-<a name="others"></a>
+<a name="otros"></a>
 
-## Others
+## Otros
 
 ### Zoxide
 
@@ -277,7 +278,70 @@ Añadimos los alias al `.zshrc`.
 alias cat='batcat'
 alias catn='/bin/cat'
 alias catnl='batcat --paging=never'
-alias findi='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}"'
+alias fzfb='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become(batcat {+})"'
+alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(nano {}),ctrl-v:become(vim {}),ctrl-c:become(code {}),ctrl-z:become(zed {}),ctrl-e:become(emacs {})"'
+alias cdf='cd $(find . -type d -print | fzf --tmux center)'
+
+function fzfc() {
+	fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
+}
+
+function hsearch() {
+  local selected_cmd
+  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
+  if [[ -n $selected_cmd ]]; then
+    print -z "$selected_cmd"
+  fi
+}
+
+function zle_hsearch_command() {
+  local selected_cmd
+  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
+  if [[ -n $selected_cmd ]]; then
+    LBUFFER+="$selected_cmd"
+    zle redisplay
+  fi
+}
+zle -N zle_hsearch_command
+bindkey '^R' zle_hsearch_command
+
+function zle_cdf_command() {
+	LBUFFER+="cd $(fd -t d -H | fzf --tmux center)"
+}
+zle -N zle_cdf_command
+bindkey '^T' zle_cdf_command
+```
+
+- `cat`: Se ejecuta batcat en su lugar.
+- `catn`: Se ejecuta el /bin/cat normal.
+- `catnl`: Se ejecuta batcat sin la función more.
+- `fzfb`: Buscador de archivos, abre el contenido con batcat.
+- `fzfe`: Buscador de archivos para edición abre el contenido en un editor:
+  - `ENTER`: nano
+  - `Ctrl + E`: emacs
+  - `Ctrl + Z`: zed
+  - `Ctrl + C`: code
+  - `Ctrl + V`: vim
+- `fzfc`: Buscador de archivos, ejecuta el comando que se escriba al archivo seleccionado:
+  - `fzfc code`
+- `Ctrl + R`: Abre una ventana de buscador del historial, con enter escribe el comando en la terminal.
+- `Ctrl + T`: Abre una ventana de buscador de directorios, con enter escribe el comando cd con la ruta.
+
+### fd-find
+
+```bash
+$ sudo apt install fd-find
+```
+
+Añadimos los alias al `.zshrc`.
+
+```bash
+alias fd='fdfind'
+```
+Podemos juntarlo con fzf.
+
+```bash
+$ fd passwd /etc | fzfb
 ```
 
 ### extractPorts
@@ -287,23 +351,46 @@ $ sudo apt install xclip
 ```
 
 ```bash
-# Used: 
+#!/bin/bash
+# Used:
 # nmap -p- --open -T5 -v -n ip -oG allPorts
 
 # Extract nmap information
-# Run as: 
+# Run as:
 # extractPorts allPorts
+
 function extractPorts(){
-	ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
+	# say how to usage
+	if [ -z "$1" ]; then
+		echo "Usage: extractPorts <filename>"
+		return 1
+	fi
+
+	# Say file not found
+	if [ ! -f "$1" ]; then
+		echo "File $1 not found"
+		return 1
+	fi
+
+	#if this not found correctly, you can delete it, from "if" to "fi".
+	if ! grep -qE '^[^#].*/open/' "$1"; then
+		echo "Format Invalid: Use -oG <file>, in nmap for a correct format."
+		return 1
+	fi
+
+	ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')";
 	ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
 	echo -e "\n[*] Extracting information...\n" > extractPorts.tmp
 	echo -e "\t[*] IP Address: $ip_address"  >> extractPorts.tmp
 	echo -e "\t[*] Open ports: $ports\n"  >> extractPorts.tmp
-	echo $ports | tr -d '\n' | xclip -sel clip
+	echo $ports | tr -d '\n' | xclip -selection clipboard
 	echo -e "[*] Ports copied to clipboard\n"  >> extractPorts.tmp
 	cat extractPorts.tmp; rm extractPorts.tmp
 }
+extractPorts "$1"
 ```
+
+Añadirlo a una ruta del $PATH Eg. `/usr/local/bin/extractPorts` y darle permisos de ejecución con `chmod +x`.
 
 ### mkt
 
@@ -311,4 +398,58 @@ Añadimos los alias al `.zshrc`.
 
 ```bash
 alias mkt='mkdir {nmap,content,exploits,scripts}'
+```
+
+<a name="zshrc"></a>
+
+## zshrc
+
+```bash
+if [ "$TMUX" = "" ]; then
+  tmux;
+fi
+
+eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+
+eval "$(zoxide init --cmd cd zsh)"
+
+# custom aliases
+alias cat='batcat'
+alias catn='/bin/cat'
+alias catnl='batcat --paging=never'
+alias fzfb='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become(batcat {+})"'
+alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(nano {}),ctrl-v:become(vim {}),ctrl-c:become(code {}),ctrl-z:become(zed {}),ctrl-e:become(emacs {})"'
+alias cdf='cd $(find . -type d -print | fzf --tmux center)'
+alias mkt='mkdir {nmap,content,exploits,scripts}'
+alias fd='fdfind'
+
+function fzfc() {
+	fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
+}
+
+function hsearch() {
+  local selected_cmd
+  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
+  if [[ -n $selected_cmd ]]; then
+    print -z "$selected_cmd"
+  fi
+}
+
+function zle_hsearch_command() {
+  local selected_cmd
+  selected_cmd=$(history | fzf | sed 's/ *[0-9]* *//')
+  if [[ -n $selected_cmd ]]; then
+    LBUFFER+="$selected_cmd"
+    zle redisplay
+  fi
+}
+zle -N zle_hsearch_command
+bindkey '^R' zle_hsearch_command
+
+function zle_cdf_command() {
+	LBUFFER+="cd $(fd -t d -H | fzf --tmux center)"
+}
+zle -N zle_cdf_command
+bindkey '^T' zle_cdf_command
+
 ```
