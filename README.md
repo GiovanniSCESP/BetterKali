@@ -373,7 +373,7 @@ function extractPorts(){
 extractPorts "$1"
 ```
 
-Añadirlo a una ruta del $PATH Eg. `/usr/local/bin/extractPorts` y darle permisos de ejecución con `chmod +x`.
+Añadirlo a una ruta del $PATH E.g. `/usr/local/bin/extractPorts` y darle permisos de ejecución con `chmod +x`.
 
 ### mkt
 
