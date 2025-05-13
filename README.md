@@ -13,6 +13,12 @@ Iniciar kitty.
 $ kitty
 ```
 
+Salir de tmux y entrar a los temas de kitty.
+
+```bash
+$ exit
+```
+
 ```bash
 $ kitten themes
 ```
@@ -26,9 +32,18 @@ Podemos añadir un shortcut a kitty.
 Añadimos el source de Tmux.
 
 ```bash
+$ tmux
+```
+
+```bash
 $ tmux source ~/.config/tmux/tmux.conf
 ```
 
+Aplicamos los cambios de tmux con `<prefix> I`.
+
+`<prefix>` = `Ctrl + SPACE` *(Ctrl + b por defecto)*
+
+Reiniciar la terminal.
 
 # Instalación Manual
 
@@ -119,7 +134,7 @@ $ tmux kill-session -a
 
 Controles:
 
-`<prefix>` = `Ctrl + SPACE` *(Ctrl + b default)*
+`<prefix>` = `Ctrl + SPACE` *(Ctrl + b por defecto)*
 
 Nueva ventana: `<prefix> c`
 
@@ -147,7 +162,7 @@ Pane a ventana: `<prefix> !`
 
 ---
 
-Aplicamos los cambios anteriores del tema con `<prefix> I`
+Aplicamos los cambios anteriores de los plugins con `<prefix> I`
 
 Añadimos tmux al `.zshrc`.
 
@@ -356,6 +371,22 @@ Podemos juntarlo con fzf.
 $ fd passwd /etc | fzfb
 ```
 
+### pwncat
+
+```bash
+$ python -m venv /opt/pwncat
+```
+
+```bash
+$ /opt/pwncat/bin/pip install pwncat-cs
+```
+
+```bash
+$ ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
+```
+
+https://pwncat.readthedocs.io/en/latest/
+
 ### extractPorts
 
 ```bash
@@ -436,10 +467,20 @@ alias catnl='batcat --paging=never'
 alias fzfb='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become(batcat {+})"'
 alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(nano {}),ctrl-v:become(vim {}),ctrl-c:become(code {}),ctrl-z:become(zed {}),ctrl-e:become(emacs {})"'
 alias cdf='cd $(find . -type d -print | fzf --tmux center)'
-alias mkt='mkdir {nmap,content,exploits,scripts}'
 alias fd='fdfind'
+alias mkt='mkdir {nmap,content,exploits,scripts}'
 
 function fzfc() {
 	fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
+```
+
+## Errores
+En las nuevas versiones de kali puede dar un error al autocompletar luego de un upgrade.
+
+https://forums.kali.org/t/bug-in-new-kali-upgrade/6423
+
+Se puede solucionar con:
+```bash
+$ sudo activate-global-python-argcomplete
 ```

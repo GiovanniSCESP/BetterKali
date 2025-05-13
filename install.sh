@@ -1,7 +1,7 @@
 #!/bin/sh
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find -y
+sudo apt install kitty tmux fzf bat fd-find xclip -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -10,6 +10,12 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 curl -s https://ohmyposh.dev/install.sh | bash -s
 
 oh-my-posh font install CascadiaCode
+
+python -m venv /opt/pwncat
+
+/opt/pwncat/bin/pip install pwncat-cs
+
+ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
 
 mkdir ~/.config/tmux
 mkdir ~/.config/ohmyposh
@@ -110,6 +116,47 @@ template = ' '
 
 EOF
 
+cat << 'EOF' > /usr/local/bin/extractPorts
+#!/bin/bash
+# Used:
+# nmap -p- --open -T5 -v -n ip -oG allPorts
+
+# Extract nmap information
+# Run as:
+# extractPorts allPorts
+
+function extractPorts(){
+	# say how to usage
+	if [ -z "$1" ]; then
+		echo "Usage: extractPorts <filename>"
+		return 1
+	fi
+
+	# Say file not found
+	if [ ! -f "$1" ]; then
+		echo "File $1 not found"
+		return 1
+	fi
+
+	#if this not found correctly, you can delete it, from "if" to "fi".
+	if ! grep -qE '^[^#].*/open/' "$1"; then
+		echo "Format Invalid: Use -oG <file>, in nmap for a correct format."
+		return 1
+	fi
+
+	ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')";
+	ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
+	echo -e "\n[*] Extracting information...\n" > extractPorts.tmp
+	echo -e "\t[*] IP Address: $ip_address"  >> extractPorts.tmp
+	echo -e "\t[*] Open ports: $ports\n"  >> extractPorts.tmp
+	echo $ports | tr -d '\n' | xclip -selection clipboard
+	echo -e "[*] Ports copied to clipboard\n"  >> extractPorts.tmp
+	cat extractPorts.tmp; rm extractPorts.tmp
+}
+extractPorts "$1"
+
+EOF
+
 cat << 'EOF' >> ~/.zshrc
 
 if [ "$TMUX" = "" ]; then
@@ -129,8 +176,8 @@ alias catnl='batcat --paging=never'
 alias fzfb='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become(batcat {+})"'
 alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(nano {}),ctrl-v:become(vim {}),ctrl-c:become(code {}),ctrl-z:become(zed {}),ctrl-e:become(emacs {})"'
 alias cdf='cd $(find . -type d -print | fzf --tmux center)'
-alias mkt='mkdir {nmap,content,exploits,scripts}'
 alias fd='fdfind'
+alias mkt='mkdir {nmap,content,exploits,scripts}'
 
 function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
