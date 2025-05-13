@@ -1,10 +1,36 @@
 # BetterKali
 
+[Youtube Playlist](https://www.youtube.com/playlist?list=PLS8uf7tTfvJZytyhV3vUZRJ6b9EkNwJ1u)
+
+# Instalación Automática
 ```bash
 $ curl https://raw.githubusercontent.com/GiovanniSCESP/BetterKali/refs/heads/main/install.sh | sh
 ```
 
-[Youtube Playlist](https://www.youtube.com/playlist?list=PLS8uf7tTfvJZytyhV3vUZRJ6b9EkNwJ1u)
+Iniciar kitty.
+
+```bash
+$ kitty
+```
+
+```bash
+$ kitten themes
+```
+
+Buscar *Catppuccin-Mocha* con: `Ctrl + /`
+
+Aplicar con: `M`
+
+Podemos añadir un shortcut a kitty.
+
+Añadimos el source de Tmux.
+
+```bash
+$ tmux source ~/.config/tmux/tmux.conf
+```
+
+
+# Instalación Manual
 
 1. [Kitty](#kitty)
 2. [Tmux](#tmux)
@@ -44,7 +70,7 @@ $ sudo apt install tmux
 $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Creamos el archivo: `/home/kali/.config/tmux/tmux.conf`.
+Creamos el archivo: `~/.config/tmux/tmux.conf`.
 
 ```
 # Set true color and mouse support
@@ -74,7 +100,7 @@ run '~/.tmux/plugins/tpm/tpm'
 ```
 
 ```bash
-$ tmux source /home/kali/.config/tmux/tmux.conf
+$ tmux source ~/.config/tmux/tmux.conf
 ```
 
 Comandos:
@@ -151,8 +177,7 @@ Añadimos ohmyposh al `.zshrc`.
 eval "$(oh-my-posh init zsh)"
 ```
 
-Reinciamos la terminal y vamos a la carpeta de configuración:
-`/home/kali/.config/ohmyposh`.
+Reinciamos la terminal y vamos a la carpeta de configuración: `~/.config/ohmyposh`.
 
 Exportamos el archivo de configuración backup.
 ```bash
@@ -390,6 +415,8 @@ alias mkt='mkdir {nmap,content,exploits,scripts}'
 <a name="zshrc"></a>
 
 ## zshrc
+
+Archivo -zshrc completo.
 
 ```bash
 if [ "$TMUX" = "" ]; then

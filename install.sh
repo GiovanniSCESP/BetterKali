@@ -1,20 +1,46 @@
 #!/bin/sh
-sudo apt install kitty
+sudo apt update -y
 
-sudo apt install tmux
+sudo apt install kitty tmux fzf bat fd-find -y
 
-curl -s https://ohmyposh.dev/install.sh | bash -s
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
-sudo apt install fzf
+curl -s https://ohmyposh.dev/install.sh | bash -s
 
-sudo apt install bat
-
-sudo apt install fd-find
+oh-my-posh font install CascadiaCode
 
 mkdir ~/.config/tmux
 mkdir ~/.config/ohmyposh
+
+cat << 'EOF' > ~/.config/tmux/tmux.conf
+# Set true color and mouse support
+set-option -sa terminal-overrides ",xterm*:Tc"
+set -g mouse on
+
+# Start windows and panes at 1, not 0
+set -g base-index 1
+set -g pane-base-index 1
+set-window-option -g pane-base-index 1
+set-option -g renumber-windows on
+
+# Set prefix
+unbind C-b
+set -g prefix C-space
+bind C-space send-prefix
+
+# Open panes in current directory
+bind '"' split-window -v -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
+
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'catppuccin/tmux'
+
+run '~/.tmux/plugins/tpm/tpm'
+
+EOF
 
 cat << 'EOF' > ~/.config/ohmyposh/zen.toml
 console_title_template = '{{ .Shell }} in {{ .Folder }}'
@@ -87,9 +113,7 @@ EOF
 cat << 'EOF' >> ~/.zshrc
 
 if [ "$TMUX" = "" ]; then
-
   tmux;
-
 fi
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
@@ -109,11 +133,7 @@ alias mkt='mkdir {nmap,content,exploits,scripts}'
 alias fd='fdfind'
 
 function fzfc() {
-
-        fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
-
+  fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
 
 EOF
-
-source ~/.zshrc
