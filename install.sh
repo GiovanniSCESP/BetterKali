@@ -11,11 +11,11 @@ curl -s https://ohmyposh.dev/install.sh | bash -s
 
 oh-my-posh font install CascadiaCode
 
-python -m venv /opt/pwncat
+sudo python -m venv /opt/pwncat
 
-/opt/pwncat/bin/pip install pwncat-cs
+sudo /opt/pwncat/bin/pip install pwncat-cs
 
-ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
+sudo ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
 
 mkdir ~/.config/tmux
 mkdir ~/.config/ohmyposh
