@@ -1,5 +1,9 @@
 # BetterKali
 
+```bash
+$ curl https://raw.githubusercontent.com/GiovanniSCESP/BetterKali/refs/heads/main/install.sh | sh
+```
+
 [Youtube Playlist](https://www.youtube.com/playlist?list=PLS8uf7tTfvJZytyhV3vUZRJ6b9EkNwJ1u)
 
 1. [Kitty](#kitty)
