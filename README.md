@@ -374,15 +374,28 @@ $ fd passwd /etc | fzfb
 ### pwncat
 
 ```bash
-$ python -m venv /opt/pwncat
+$ sudo apt install pyenv
+```
+
+
+```bash
+$ pyenv install 3.11
 ```
 
 ```bash
-$ /opt/pwncat/bin/pip install pwncat-cs
+$ pyenv local 3.11
 ```
 
 ```bash
-$ ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
+$ sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/pwncat
+```
+
+```bash
+$ sudo /opt/pwncat/bin/pip install pwncat-cs
+```
+
+```bash
+$ sudo ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
 ```
 
 https://pwncat.readthedocs.io/en/latest/

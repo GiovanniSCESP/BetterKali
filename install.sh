@@ -1,7 +1,7 @@
 #!/bin/sh
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find xclip -y
+sudo apt install kitty tmux fzf bat fd-find pyenv xclip -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -11,7 +11,11 @@ curl -s https://ohmyposh.dev/install.sh | bash -s
 
 oh-my-posh font install CascadiaCode
 
-sudo python -m venv /opt/pwncat
+pyenv install 3.11
+
+pyenv local 3.11
+
+sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/pwncat
 
 sudo /opt/pwncat/bin/pip install pwncat-cs
 
