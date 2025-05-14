@@ -120,7 +120,7 @@ template = ' '
 
 EOF
 
-cat << 'EOF' > /usr/local/bin/extractPorts
+cat << 'EOF' > /tmp/extractPorts
 #!/bin/bash
 # Used:
 # nmap -p- --open -T5 -v -n ip -oG allPorts
@@ -160,6 +160,9 @@ function extractPorts(){
 extractPorts "$1"
 
 EOF
+
+chmod +x /tmp/extractPorts
+sudo mv /tmp/extractPorts /usr/local/bin/
 
 cat << 'EOF' >> ~/.zshrc
 
