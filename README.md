@@ -1,5 +1,8 @@
 # BetterKali
 
+![image](https://github.com/user-attachments/assets/679e8f0b-6fad-40a3-8041-7da74b46fa40)
+
+
 [Youtube Playlist](https://www.youtube.com/playlist?list=PLS8uf7tTfvJZytyhV3vUZRJ6b9EkNwJ1u)
 
 # Instalación Automática
