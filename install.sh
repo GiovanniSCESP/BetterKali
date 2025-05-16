@@ -1,7 +1,7 @@
 #!/bin/sh
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find pyenv xclip -y
+sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep thefuck fastfetch -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -15,11 +15,17 @@ pyenv install 3.11
 
 pyenv local 3.11
 
-sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/pwncat
+# TLDR ???
 
-sudo /opt/pwncat/bin/pip install pwncat-cs
+sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/py3tools
+
+sudo /opt/py3tools/bin/pip install pwncat-cs
+
+sudo /opt/py3tools/bin/pip install tldr
 
 sudo ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
+
+sudo ln -s /opt/pwncat/bin/tldr /usr/local/bin
 
 mkdir ~/.config/tmux
 mkdir ~/.config/ohmyposh
@@ -176,6 +182,8 @@ eval "$(zoxide init --cmd cd zsh)"
 
 source <(fzf --zsh)
 
+eval $(thefuck --alias)
+
 # custom aliases
 alias cat='batcat'
 alias catn='/bin/cat'
@@ -189,5 +197,13 @@ alias mkt='mkdir {nmap,content,exploits,scripts}'
 function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
+
+function zle_fuck_command() {
+	LBUFFER+="fuck"
+}
+zle -N zle_fuck_command
+bindkey '^F' zle_fuck_command
+
+fastfetch
 
 EOF

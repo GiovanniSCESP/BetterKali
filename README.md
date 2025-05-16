@@ -43,7 +43,7 @@ Aplicamos los cambios de tmux con `<prefix> I`.
 
 `<prefix>` = `Ctrl + SPACE` *(Ctrl + b por defecto)*
 
-Reiniciar la terminal.
+Reiniciar la terminal y el sistema.
 
 # Instalación Manual
 
