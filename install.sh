@@ -23,9 +23,9 @@ sudo /opt/py3tools/bin/pip install pwncat-cs
 
 sudo /opt/py3tools/bin/pip install tldr
 
-sudo ln -s /opt/pwncat/bin/pwncat-cs /usr/local/bin
+sudo ln -s /opt/py3tools/bin/pwncat-cs /usr/local/bin
 
-sudo ln -s /opt/pwncat/bin/tldr /usr/local/bin
+sudo ln -s /opt/py3tools/bin/tldr /usr/local/bin
 
 mkdir ~/.config/tmux
 mkdir ~/.config/ohmyposh
@@ -198,11 +198,11 @@ function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
 
-function zle_fuck_command() {
-	LBUFFER+="fuck"
+function zle_fuck_tmux() {
+  tmux send-keys "fuck" C-m
 }
-zle -N zle_fuck_command
-bindkey '^F' zle_fuck_command
+zle -N zle_fuck_tmux
+bindkey '^F' zle_fuck_tmux
 
 fastfetch
 
