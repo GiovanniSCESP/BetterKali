@@ -5,14 +5,29 @@ sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep thefuck fastfetc
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+if ! command -v zoxide 2>&1 >/dev/null
+then
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+else
+    echo 'Zoxide found'
+fi
 
-curl -s https://ohmyposh.dev/install.sh | bash -s
+if ! command -v oh-my-posh 2>&1 >/dev/null
+then
+    curl -s https://ohmyposh.dev/install.sh | bash -s
+else
+    echo 'OhMyPosh found'
+fi
 
 oh-my-posh font install CascadiaCode
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if ! command -v brew 2>&1 >/dev/null
+then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else
+    echo 'brew found'
+fi
 
 brew install yazi
 
@@ -21,8 +36,6 @@ brew install exa
 pyenv install 3.11
 
 pyenv local 3.11
-
-# TLDR ???
 
 sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/py3tools
 
