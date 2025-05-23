@@ -194,15 +194,6 @@ EOF
 chmod +x /tmp/extractPorts
 sudo mv /tmp/extractPorts /usr/local/bin/
 
-echo "¿Añadir entradas a .zshrc automáticamente?"
-select strictreply in "Yes" "No"; do
-    relaxedreply=${strictreply:-$REPLY}
-    case $relaxedreply in
-        Yes | yes | y ) break;;
-        No  | no  | n ) exit;;
-    esac
-done
-
 while true; do
 	read -p "¿Añadir entradas a .zshrc automáticamente? [y/n] " choice
 	case "$choice" in
