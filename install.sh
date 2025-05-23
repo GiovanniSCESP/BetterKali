@@ -30,23 +30,26 @@ fi
 
 brew install yazi
 
-pyenv_local=$(pyenv local)
-if [ "$pyenv_local" = "3.11" ]; then
-	echo "pyenv found"
-else
+if ! command -v ~/.pyenv/versions/3.11.11/bin/python 2>&1 >/dev/null
+then
 	pyenv install 3.11
 	pyenv local 3.11
+else
+	echo 'pyenv 3.11 found'
 fi
 
-sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/py3tools
+if ! command -v /opt/py3tools/bin/pip 2>&1 >/dev/null
+then
+	sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/py3tools
 
-sudo /opt/py3tools/bin/pip install pwncat-cs
+	sudo /opt/py3tools/bin/pip install pwncat-cs
+	sudo /opt/py3tools/bin/pip install tldr
 
-sudo /opt/py3tools/bin/pip install tldr
-
-sudo ln -s /opt/py3tools/bin/pwncat-cs /usr/local/bin
-
-sudo ln -s /opt/py3tools/bin/tldr /usr/local/bin
+	sudo ln -s /opt/py3tools/bin/pwncat-cs /usr/local/bin
+	sudo ln -s /opt/py3tools/bin/tldr /usr/local/bin
+else
+	echo 'py3tools found'
+fi
 
 mkdir ~/.config/tmux
 mkdir ~/.config/ohmyposh
@@ -191,6 +194,24 @@ EOF
 chmod +x /tmp/extractPorts
 sudo mv /tmp/extractPorts /usr/local/bin/
 
+echo "¿Añadir entradas a .zshrc automáticamente?"
+select strictreply in "Yes" "No"; do
+    relaxedreply=${strictreply:-$REPLY}
+    case $relaxedreply in
+        Yes | yes | y ) break;;
+        No  | no  | n ) exit;;
+    esac
+done
+
+while true; do
+	read -p "¿Añadir entradas a .zshrc automáticamente? [y/n] " choice
+	case "$choice" in
+		y|Y|yes ) break;;
+		n|N|no ) echo "Saliendo..."; exit 0;;
+		* ) echo "Invalid input, please enter y or n";;
+	esac
+done
+
 cat << 'EOF' >> ~/.zshrc
 
 if [ "$TMUX" = "" ]; then
@@ -241,3 +262,5 @@ bindkey '^F' zle_fuck_tmux
 fastfetch
 
 EOF
+
+echo "\nTerminado\n"
