@@ -194,14 +194,13 @@ EOF
 chmod +x /tmp/extractPorts
 sudo mv /tmp/extractPorts /usr/local/bin/
 
-while true; do
-	read -p "¿Añadir entradas a .zshrc automáticamente? [y/n] " choice
-	case "$choice" in
-		y|Y|yes ) break;;
-		n|N|no ) echo "Saliendo..."; exit 0;;
-		* ) echo "Invalid input, please enter y or n";;
-	esac
-done
+
+read -p "¿Añadir entradas a .zshrc automáticamente? [y/n] " choice
+case "$choice" in
+	y|Y|yes ) break;;
+	n|N|no ) echo "Saliendo..."; exit 0;;
+	* ) echo "Invalid input, exiting..."; exit 0;;
+esac
 
 cat << 'EOF' >> ~/.zshrc
 
