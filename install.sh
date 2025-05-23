@@ -20,7 +20,7 @@ else
     echo 'OhMyPosh found'
 fi
 
-if ! command -v brew 2>&1 >/dev/null
+if ! command -v /home/linuxbrew/.linuxbrew/bin/brew 2>&1 >/dev/null
 then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
