@@ -11,6 +11,11 @@ curl -s https://ohmyposh.dev/install.sh | bash -s
 
 oh-my-posh font install CascadiaCode
 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+brew install yazi
+
 pyenv install 3.11
 
 pyenv local 3.11
@@ -184,6 +189,8 @@ source <(fzf --zsh)
 
 eval $(thefuck --alias)
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # custom aliases
 alias cat='batcat'
 alias catn='/bin/cat'
@@ -199,6 +206,14 @@ alias lsn='/bin/ls'
 
 function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
+}
+
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" -- cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd - - "$cwd"
+  rm -f -- "$tmp"
 }
 
 function zle_fuck_tmux() {
