@@ -1,7 +1,7 @@
 #!/bin/sh
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep thefuck fastfetch -y
+sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep eza thefuck fastfetch -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -30,8 +30,6 @@ else
 fi
 
 brew install yazi
-
-brew install exa
 
 pyenv install 3.11
 
@@ -215,7 +213,7 @@ alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:5
 alias cdf='cd $(find . -type d -print | fzf --tmux center)'
 alias fd='fdfind'
 alias mkt='mkdir {nmap,content,exploits,scripts}'
-alias ls='exa --icons'
+alias ls='eza --icons'
 alias l='ls -F'
 alias lsn='/bin/ls'
 
