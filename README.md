@@ -58,13 +58,22 @@ Reiniciar la terminal y el sistema.
 
 <a name="kitty"></a>
 
-## Kitty
+## **Kitty**
 
+Emulador de terminal personalizable y con utilidades.
+
+Instalación:
 ```bash
 $ sudo apt install kitty
 ```
 
-Ejecutamos el emulador de terminal.
+Ejecutamos el emulador de terminal y entramos al selector de temas.
+
+*No podemos estar en tmux al ejecutar kitten themes*
+
+```bash
+$ kitty
+```
 
 ```bash
 $ kitten themes
@@ -74,12 +83,12 @@ Buscar *Catppuccin-Mocha* con: `/`
 
 Aplicar con: `M`
 
-Podemos añadir un shortcut a kitty.
-
 <a name="tmux"></a>
 
-## Tmux
+## **Tmux**
+Multiplexor de terminal personalizable.
 
+Instalación:
 ```bash
 $ sudo apt install tmux
 ```
@@ -177,7 +186,7 @@ fi
 
 <a name="ohmyposh"></a>
 
-## OhMyPosh
+## **OhMyPosh**
 
 ```bash
 $ curl -s https://ohmyposh.dev/install.sh | bash -s
@@ -476,6 +485,10 @@ eval "$(zoxide init --cmd cd zsh)"
 
 source <(fzf --zsh)
 
+eval $(thefuck --alias)
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # custom aliases
 alias cat='batcat'
 alias catn='/bin/cat'
@@ -485,10 +498,29 @@ alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:5
 alias cdf='cd $(find . -type d -print | fzf --tmux center)'
 alias fd='fdfind'
 alias mkt='mkdir {nmap,content,exploits,scripts}'
+alias ls='eza --icons'
+alias l='ls -F'
+alias lsn='/bin/ls'
 
 function fzfc() {
-	fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
+  fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
 }
+
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" -- cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd - - "$cwd"
+  rm -f -- "$tmp"
+}
+
+function zle_fuck_tmux() {
+  tmux send-keys "fuck" C-m
+}
+zle -N zle_fuck_tmux
+bindkey '^F' zle_fuck_tmux
+
+fastfetch
 ```
 
 ## Errores
