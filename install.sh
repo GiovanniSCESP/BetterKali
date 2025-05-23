@@ -1,7 +1,7 @@
 #!/bin/sh
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep exa thefuck fastfetch -y
+sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep thefuck fastfetch -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -15,6 +15,8 @@ oh-my-posh font install CascadiaCode
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 brew install yazi
+
+brew install exa
 
 pyenv install 3.11
 
