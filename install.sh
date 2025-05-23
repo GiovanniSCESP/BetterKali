@@ -1,7 +1,7 @@
 #!/bin/sh
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep thefuck fastfetch -y
+sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep exa thefuck fastfetch -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -193,6 +193,9 @@ alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:5
 alias cdf='cd $(find . -type d -print | fzf --tmux center)'
 alias fd='fdfind'
 alias mkt='mkdir {nmap,content,exploits,scripts}'
+alias ls='exa --icons'
+alias l='ls -F'
+alias lsn='/bin/ls'
 
 function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"

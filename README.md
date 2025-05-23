@@ -26,7 +26,7 @@ $ exit
 $ kitten themes
 ```
 
-Buscar *Catppuccin-Mocha* con: `Ctrl + /`
+Buscar *Catppuccin-Mocha* con: `/`
 
 Aplicar con: `M`
 
@@ -70,7 +70,7 @@ Ejecutamos el emulador de terminal.
 $ kitten themes
 ```
 
-Buscar *Catppuccin-Mocha* con: `Ctrl + /`
+Buscar *Catppuccin-Mocha* con: `/`
 
 Aplicar con: `M`
 
