@@ -15,11 +15,10 @@ fi
 if ! command -v oh-my-posh 2>&1 >/dev/null
 then
     curl -s https://ohmyposh.dev/install.sh | bash -s
+	oh-my-posh font install CascadiaCode
 else
     echo 'OhMyPosh found'
 fi
-
-oh-my-posh font install CascadiaCode
 
 if ! command -v brew 2>&1 >/dev/null
 then
@@ -31,9 +30,13 @@ fi
 
 brew install yazi
 
-pyenv install 3.11
-
-pyenv local 3.11
+pyenv_local=$(pyenv local)
+if [ "$pyenv_local" = "3.11" ]; then
+	echo "pyenv found"
+else
+	pyenv install 3.11
+	pyenv local 3.11
+fi
 
 sudo ~/.pyenv/versions/3.11.11/bin/python -m venv /opt/py3tools
 
