@@ -205,13 +205,15 @@ while true; do
     case "$choice" in
         y|Y|yes ) 
 			curl -o ~/Pictures/Kurzgesagt-Galaxies.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxies.png
-			curl -o ~/Pictures/zgesagt-Galaxy_3.pn https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxy_3.png
-			curl -o ~/Pictures/clouds-3.jpg https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/clouds-3.jpg
-			curl -o ~/Pictures/cat-vibin.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/cat-vibin.png
+			curl -o ~/Pictures/zgesagt-Galaxy_3.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxy_3.png
 			curl -o ~/Pictures/cat_leaves.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/cat_leaves.png
 			curl -o ~/Pictures/space.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/space.png
 			curl -o ~/Pictures/stall.jpg https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/stall.jpg
 			curl -o ~/Pictures/waterfall.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/waterfall.png
+			curl -o ~/Pictures/result_3.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/result_3.png
+			curl -o ~/Pictures/wanderer.jpg https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/wanderer.jpg
+			curl -o ~/Pictures/degirled.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/degirled.png
+			curl -o ~/Pictures/window-room.png hhttps://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/window-room.png
 
 			# Para máquinas virutales
 			xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s ~/Pictures/Kurzgesagt-Galaxies.png
@@ -263,6 +265,10 @@ alias lsn='/bin/ls'
 
 function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
+}
+
+function wallpaper() {
+  xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace$(xprop -root -notype _NET_CURRENT_DESKTOP | awk -F'= ' '{print $2}')/last-image --create --type=string --set=$(fd -tf -e jpg -e png -e gif --absolute-path | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@20x1 {}')
 }
 
 function y() {
