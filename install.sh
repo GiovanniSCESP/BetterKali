@@ -213,7 +213,7 @@ while true; do
 			curl -o ~/Pictures/result_3.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/result_3.png
 			curl -o ~/Pictures/wanderer.jpg https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/wanderer.jpg
 			curl -o ~/Pictures/degirled.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/degirled.png
-			curl -o ~/Pictures/window-room.png hhttps://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/window-room.png
+			curl -o ~/Pictures/window-room.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/window-room.png
 
 			# Para máquinas virutales
 			xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s ~/Pictures/Kurzgesagt-Galaxies.png
