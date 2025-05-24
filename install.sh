@@ -1,4 +1,10 @@
 #!/bin/sh
+
+if [ "$(id -u)" = 0 ]; then
+	echo 'Este script no puede ser ejecutado por root' >82
+	exit 1
+fi
+
 sudo apt update -y
 
 sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep eza thefuck fastfetch -y
@@ -193,6 +199,29 @@ EOF
 
 chmod +x /tmp/extractPorts
 sudo mv /tmp/extractPorts /usr/local/bin/
+
+while true; do
+    read -p "Descargar fondos de pantalla? [y/n] " choice < /dev/tty
+    case "$choice" in
+        y|Y|yes ) 
+			curl -o ~/Pictures/Kurzgesagt-Galaxies.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxies.png
+			curl -o ~/Pictures/zgesagt-Galaxy_3.pn https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxy_3.png
+			curl -o ~/Pictures/clouds-3.jpg https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/clouds-3.jpg
+			curl -o ~/Pictures/cat-vibin.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/cat-vibin.png
+			curl -o ~/Pictures/cat_leaves.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/cat_leaves.png
+			curl -o ~/Pictures/space.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/space.png
+			curl -o ~/Pictures/stall.jpg https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/stall.jpg
+			curl -o ~/Pictures/waterfall.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/waterfall.png
+
+			# Para máquinas virutales
+			xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s ~/Pictures/Kurzgesagt-Galaxies.png
+
+			break;;
+        n|N|no ) break;;
+        * ) echo "Entrada inválida, por favor escribe y o n";;
+    esac
+done
+
 
 while true; do
     read -p "¿Añadir entradas a .zshrc automáticamente? [y/n] " choice < /dev/tty
