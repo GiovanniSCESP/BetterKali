@@ -7,7 +7,7 @@ fi
 
 sudo apt update -y
 
-sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep eza thefuck fastfetch -y
+sudo apt install kitty tmux fzf bat fd-find pyenv xclip ripgrep eza thefuck fastfetch unp -y
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -50,9 +50,11 @@ then
 
 	sudo /opt/py3tools/bin/pip install pwncat-cs
 	sudo /opt/py3tools/bin/pip install tldr
+	sudo /opt/py3tools/bin/pip install git-dumper
 
 	sudo ln -s /opt/py3tools/bin/pwncat-cs /usr/local/bin
 	sudo ln -s /opt/py3tools/bin/tldr /usr/local/bin
+	sudo ln -s /opt/py3tools/bin/git-dumper /usr/local/bin
 else
 	echo 'py3tools found'
 fi
@@ -83,6 +85,9 @@ bind % split-window -h -c "#{pane_current_path}"
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'catppuccin/tmux'
+set -g @plugin 'omerxx/tmux-sessionx'
+
+set -g @sessionx-bind 'o'
 
 run '~/.tmux/plugins/tpm/tpm'
 
