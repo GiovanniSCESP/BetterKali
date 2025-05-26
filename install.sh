@@ -36,6 +36,13 @@ fi
 
 brew install yazi
 
+if ! command -v atuin 2>&1 >/dev/null
+then
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+else
+    echo 'atuin found'
+fi
+
 if ! command -v ~/.pyenv/versions/3.11.11/bin/python 2>&1 >/dev/null
 then
 	pyenv install 3.11
@@ -221,7 +228,7 @@ while true; do
 			curl -o ~/Pictures/window-room.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/window-room.png
 
 			# Para máquinas virutales
-			xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s ~/Pictures/Kurzgesagt-Galaxies.png
+			xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --create --type=string --set=~/Pictures/Kurzgesagt-Galaxies.png
 
 			break;;
         n|N|no ) break;;
