@@ -228,7 +228,7 @@ while true; do
 			curl -o ~/Pictures/window-room.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/window-room.png
 
 			# Para máquinas virutales
-			xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --create --type=string --set=~/Pictures/Kurzgesagt-Galaxies.png
+			xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --create --type=string --set=/home/kali/Pictures/Kurzgesagt-Galaxies.png
 
 			break;;
         n|N|no ) break;;
@@ -263,15 +263,15 @@ eval $(thefuck --alias)
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # custom aliases
-alias cat='batcat'
+alias cat='/bin/batcat'
 alias catn='/bin/cat'
-alias catnl='batcat --paging=never'
+alias catnl='/bin/batcat --paging=never'
 alias fzfb='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become(batcat {+})"'
 alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(nano {}),ctrl-v:become(vim {}),ctrl-c:become(code {}),ctrl-z:become(zed {}),ctrl-e:become(emacs {})"'
 alias cdf='cd $(find . -type d -print | fzf --tmux center)'
 alias fd='fdfind'
 alias mkt='mkdir {nmap,content,exploits,scripts}'
-alias ls='eza --icons'
+alias ls='/bin/exa --icons'
 alias l='ls -F'
 alias lsn='/bin/ls'
 
