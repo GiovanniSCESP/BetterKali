@@ -28,13 +28,15 @@ fi
 
 if ! command -v /home/linuxbrew/.linuxbrew/bin/brew 2>&1 >/dev/null
 then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 else
     echo 'brew found'
 fi
 
 brew install yazi
+brew install neovim
+brew install node
 
 if ! command -v atuin 2>&1 >/dev/null
 then
@@ -213,9 +215,22 @@ chmod +x /tmp/extractPorts
 sudo mv /tmp/extractPorts /usr/local/bin/
 
 while true; do
-    read -p "Descargar fondos de pantalla? [y/n] " choice < /dev/tty
+    read -p "¿Descargar LazyVim? [y/n] " choice < /dev/tty
     case "$choice" in
-        y|Y|yes ) 
+        y|Y|yes )
+			git clone https://github.com/LazyVim/starter ~/.config/nvim
+			rm -rf ~/.config/nvim/.git
+
+			break;;
+        n|N|no ) break;;
+        * ) echo "Entrada inválida, por favor escribe y o n";;
+    esac
+done
+
+while true; do
+    read -p "¿Descargar fondos de pantalla? [y/n] " choice < /dev/tty
+    case "$choice" in
+        y|Y|yes )
 			curl -o ~/Pictures/Kurzgesagt-Galaxies.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxies.png
 			curl -o ~/Pictures/zgesagt-Galaxy_3.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/Kurzgesagt-Galaxy_3.png
 			curl -o ~/Pictures/cat_leaves.png https://raw.githubusercontent.com/ashish0kumar/windots/refs/heads/main/walls/cat_leaves.png
@@ -268,15 +283,19 @@ alias catn='/bin/cat'
 alias catnl='/bin/batcat --paging=never'
 alias fzfb='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become(batcat {+})"'
 alias fzfe='fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --bind "enter:become(nano {}),ctrl-v:become(vim {}),ctrl-c:become(code {}),ctrl-z:become(zed {}),ctrl-e:become(emacs {})"'
-alias cdf='cd $(find . -type d -print | fzf --tmux center)'
 alias fd='fdfind'
 alias mkt='mkdir {nmap,content,exploits,scripts}'
-alias ls='/bin/exa --icons'
+alias ls='eza --icons=always'
 alias l='ls -F'
+alias lt='ls -a --tree --level=1'
 alias lsn='/bin/ls'
 
 function fzfc() {
   fzf --preview "batcat --color=always --style=numbers --line-range=:500 {}" --multi --bind "enter:become($1 {+})"
+}
+
+function cx() {
+  ls -l $@ && cd $@
 }
 
 function wallpaper() {
@@ -284,11 +303,11 @@ function wallpaper() {
 }
 
 function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	IFS= read -r -d '' cwd < "$tmp"
-	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-	rm -f -- "$tmp"
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
 }
 
 function zle_fuck_tmux() {
